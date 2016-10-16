@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang=en>
+<head>
+  <meta charset=utf-8>
+  <meta http-equiv="cache-control" content="no-cache">
+  <title>PRP - Results</title>
+  <style type="text/css">
+    div {
+       white-space: pre;
+       font-family: "Consolas";
+       font-size: 14px; 
+       margin: 0pt; 
+       display: block;
+       width: 875px;
+       margin-left: auto;
+       margin-right: auto;
+       text-align: left;
+    }
+    .maintitle{
+      color: #0000cc;
+      text-align:center;
+      background-color: #dedeef;
+      font-size: 1.5em;
+      margin-top: 0.83em;
+      margin-bottom: 0.83em;
+      font-weight: bold;
+    }
+    .public { 
+       display: block;
+       background-color: #f0f0f0;
+       margin-left: auto;
+       margin-right: auto;
+    }
+    .ok { 
+       display: block;
+       background-color: darkgreen;
+       color: white;
+       text-align: center;
+       margin-top: 10pt;
+    }
+    .nok { 
+       display: block;
+       background-color: darkred;
+       color: white;
+       text-align: center;
+       margin-top: 10pt;
+    }
+    .title { 
+       display: block;
+       background-color: darkgray;
+       color: black;
+       text-align: center;
+       margin-top: 10pt;
+    }
+    div.main {
+       width: 875px;
+       margin-left: auto;
+       margin-right: auto;
+    }
+    div.error {
+       color: red;
+       font-size: 150%;
+    }
+    div.info {
+      
+    }
+    table {
+      width: 100%;
+    }
+    td{
+      vertical-align: top;
+      width: 33.33%;
+      text-align: left;
+    }
+    .points {
+      border-collapse: collapse;
+      /*border: 1px solid black;*/
+      width: 70%;
+      margin: 0 auto;
+      vertical-align: middle;
+    }
+    .points tr td, .points tr th {
+      border-collapse: collapse;
+      border: 1px solid black;
+      text-align: center;
+      vertical-align: middle;
+      width: 20%;
+    }
+    .diff {
+      width: 800px;
+      background-color: white;
+      height: 1.5em;
+      overflow: hidden;
+      /*border-style: solid;*/
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Input stream (stdin) - click to show details:
+<pre>
+11 24
+ 
+ 
+Hexdump
+ 
+================================================================================================
+0000000: 31 31 20 32 34 0a        11 24.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard output (stdout) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+Desitkova soustava: 11 24			Desitkova soustava: 11 24
+Sestnactkova soustava: b 18			Sestnactkova soustava: b 18
+Soucet: 11 + 24 = 35				Soucet: 11 + 24 = 35
+Rozdil: 11 - 24 = -13				Rozdil: 11 - 24 = -13
+Soucin: 11 * 24 = 264				Soucin: 11 * 24 = 264
+Podil: 11 / 24 = 0				Podil: 11 / 24 = 0
+Prumer: 17.5					Prumer: 17.5
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+0000000: 44 65 73 69 74 6b 6f 76  Desitkov	0000000: 44 65 73 69 74 6b 6f 76  Desitkov
+0000008: 61 20 73 6f 75 73 74 61  a sousta	0000008: 61 20 73 6f 75 73 74 61  a sousta
+0000010: 76 61 3a 20 31 31 20 32  va: 11 2	0000010: 76 61 3a 20 31 31 20 32  va: 11 2
+0000018: 34 0a 53 65 73 74 6e 61  4.Sestna	0000018: 34 0a 53 65 73 74 6e 61  4.Sestna
+0000020: 63 74 6b 6f 76 61 20 73  ctkova s	0000020: 63 74 6b 6f 76 61 20 73  ctkova s
+0000028: 6f 75 73 74 61 76 61 3a  oustava:	0000028: 6f 75 73 74 61 76 61 3a  oustava:
+0000030: 20 62 20 31 38 0a 53 6f   b 18.So	0000030: 20 62 20 31 38 0a 53 6f   b 18.So
+0000038: 75 63 65 74 3a 20 31 31  ucet: 11	0000038: 75 63 65 74 3a 20 31 31  ucet: 11
+0000040: 20 2b 20 32 34 20 3d 20   + 24 = 	0000040: 20 2b 20 32 34 20 3d 20   + 24 = 
+0000048: 33 35 0a 52 6f 7a 64 69  35.Rozdi	0000048: 33 35 0a 52 6f 7a 64 69  35.Rozdi
+0000050: 6c 3a 20 31 31 20 2d 20  l: 11 - 	0000050: 6c 3a 20 31 31 20 2d 20  l: 11 - 
+0000058: 32 34 20 3d 20 2d 31 33  24 = -13	0000058: 32 34 20 3d 20 2d 31 33  24 = -13
+0000060: 0a 53 6f 75 63 69 6e 3a  .Soucin:	0000060: 0a 53 6f 75 63 69 6e 3a  .Soucin:
+0000068: 20 31 31 20 2a 20 32 34   11 * 24	0000068: 20 31 31 20 2a 20 32 34   11 * 24
+0000070: 20 3d 20 32 36 34 0a 50   = 264.P	0000070: 20 3d 20 32 36 34 0a 50   = 264.P
+0000078: 6f 64 69 6c 3a 20 31 31  odil: 11	0000078: 6f 64 69 6c 3a 20 31 31  odil: 11
+0000080: 20 2f 20 32 34 20 3d 20   / 24 = 	0000080: 20 2f 20 32 34 20 3d 20   / 24 = 
+0000088: 30 0a 50 72 75 6d 65 72  0.Prumer	0000088: 30 0a 50 72 75 6d 65 72  0.Prumer
+0000090: 3a 20 31 37 2e 35 0a     : 17.5.	0000090: 3a 20 31 37 2e 35 0a     : 17.5.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard error output (stderr) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+</pre></div>
+   </div><div class=ok>pub02</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 2 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 957 ms&#13;&#10;User time: 908 ms&#13;&#10;Sys time: 44 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Input stream (stdin) - click to show details:
+<pre>
+152 0
+ 
+ 
+Hexdump
+ 
+================================================================================================
+0000000: 31 35 32 20 30 0a        152 0.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard output (stdout) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+Desitkova soustava: 152 0			Desitkova soustava: 152 0
+Sestnactkova soustava: 98 0			Sestnactkova soustava: 98 0
+Soucet: 152 + 0 = 152				Soucet: 152 + 0 = 152
+Rozdil: 152 - 0 = 152				Rozdil: 152 - 0 = 152
+Soucin: 152 * 0 = 0				Soucin: 152 * 0 = 0
+Nedefinovany vysledek!				Nedefinovany vysledek!
+Prumer: 76.0					Prumer: 76.0
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+0000000: 44 65 73 69 74 6b 6f 76  Desitkov	0000000: 44 65 73 69 74 6b 6f 76  Desitkov
+0000008: 61 20 73 6f 75 73 74 61  a sousta	0000008: 61 20 73 6f 75 73 74 61  a sousta
+0000010: 76 61 3a 20 31 35 32 20  va: 152 	0000010: 76 61 3a 20 31 35 32 20  va: 152 
+0000018: 30 0a 53 65 73 74 6e 61  0.Sestna	0000018: 30 0a 53 65 73 74 6e 61  0.Sestna
+0000020: 63 74 6b 6f 76 61 20 73  ctkova s	0000020: 63 74 6b 6f 76 61 20 73  ctkova s
+0000028: 6f 75 73 74 61 76 61 3a  oustava:	0000028: 6f 75 73 74 61 76 61 3a  oustava:
+0000030: 20 39 38 20 30 0a 53 6f   98 0.So	0000030: 20 39 38 20 30 0a 53 6f   98 0.So
+0000038: 75 63 65 74 3a 20 31 35  ucet: 15	0000038: 75 63 65 74 3a 20 31 35  ucet: 15
+0000040: 32 20 2b 20 30 20 3d 20  2 + 0 = 	0000040: 32 20 2b 20 30 20 3d 20  2 + 0 = 
+0000048: 31 35 32 0a 52 6f 7a 64  152.Rozd	0000048: 31 35 32 0a 52 6f 7a 64  152.Rozd
+0000050: 69 6c 3a 20 31 35 32 20  il: 152 	0000050: 69 6c 3a 20 31 35 32 20  il: 152 
+0000058: 2d 20 30 20 3d 20 31 35  - 0 = 15	0000058: 2d 20 30 20 3d 20 31 35  - 0 = 15
+0000060: 32 0a 53 6f 75 63 69 6e  2.Soucin	0000060: 32 0a 53 6f 75 63 69 6e  2.Soucin
+0000068: 3a 20 31 35 32 20 2a 20  : 152 * 	0000068: 3a 20 31 35 32 20 2a 20  : 152 * 
+0000070: 30 20 3d 20 30 0a 4e 65  0 = 0.Ne	0000070: 30 20 3d 20 30 0a 4e 65  0 = 0.Ne
+0000078: 64 65 66 69 6e 6f 76 61  definova	0000078: 64 65 66 69 6e 6f 76 61  definova
+0000080: 6e 79 20 76 79 73 6c 65  ny vysle	0000080: 6e 79 20 76 79 73 6c 65  ny vysle
+0000088: 64 65 6b 21 0a 50 72 75  dek!.Pru	0000088: 64 65 6b 21 0a 50 72 75  dek!.Pru
+0000090: 6d 65 72 3a 20 37 36 2e  mer: 76.	0000090: 6d 65 72 3a 20 37 36 2e  mer: 76.
+0000098: 30 0a                    0.		0000098: 30 0a                    0.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard error output (stderr) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+</pre></div>
+   </div><div class=ok>pub03</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 913 ms&#13;&#10;User time: 888 ms&#13;&#10;Sys time: 20 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Input stream (stdin) - click to show details:
+<pre>
+10001 125
+ 
+ 
+Hexdump
+ 
+================================================================================================
+0000000: 31 30 30 30 31 20 31 32  10001 12
+0000008: 35 0a                    5.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard output (stdout) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+Vstup je mimo interval!				Vstup je mimo interval!
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+0000000: 56 73 74 75 70 20 6a 65  Vstup je	0000000: 56 73 74 75 70 20 6a 65  Vstup je
+0000008: 20 6d 69 6d 6f 20 69 6e   mimo in	0000008: 20 6d 69 6d 6f 20 69 6e   mimo in
+0000010: 74 65 72 76 61 6c 21 0a  terval!.	0000010: 74 65 72 76 61 6c 21 0a  terval!.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard error output (stderr) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+</pre></div>
+   </div><div class=ok>pub04</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 943 ms&#13;&#10;User time: 900 ms&#13;&#10;Sys time: 40 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Input stream (stdin) - click to show details:
+<pre>
+212 -78 5 16 32
+ 
+ 
+Hexdump
+ 
+================================================================================================
+0000000: 32 31 32 20 2d 37 38 20  212 -78 
+0000008: 35 20 31 36 20 33 32 0a  5 16 32.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard output (stdout) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+Desitkova soustava: 212 -78			Desitkova soustava: 212 -78
+Sestnactkova soustava: d4 ffffffb2		Sestnactkova soustava: d4 ffffffb2
+Soucet: 212 + -78 = 134				Soucet: 212 + -78 = 134
+Rozdil: 212 - -78 = 290				Rozdil: 212 - -78 = 290
+Soucin: 212 * -78 = -16536			Soucin: 212 * -78 = -16536
+Podil: 212 / -78 = -2				Podil: 212 / -78 = -2
+Prumer: 67.0					Prumer: 67.0
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+0000000: 44 65 73 69 74 6b 6f 76  Desitkov	0000000: 44 65 73 69 74 6b 6f 76  Desitkov
+0000008: 61 20 73 6f 75 73 74 61  a sousta	0000008: 61 20 73 6f 75 73 74 61  a sousta
+0000010: 76 61 3a 20 32 31 32 20  va: 212 	0000010: 76 61 3a 20 32 31 32 20  va: 212 
+0000018: 2d 37 38 0a 53 65 73 74  -78.Sest	0000018: 2d 37 38 0a 53 65 73 74  -78.Sest
+0000020: 6e 61 63 74 6b 6f 76 61  nactkova	0000020: 6e 61 63 74 6b 6f 76 61  nactkova
+0000028: 20 73 6f 75 73 74 61 76   soustav	0000028: 20 73 6f 75 73 74 61 76   soustav
+0000030: 61 3a 20 64 34 20 66 66  a: d4 ff	0000030: 61 3a 20 64 34 20 66 66  a: d4 ff
+0000038: 66 66 66 66 62 32 0a 53  ffffb2.S	0000038: 66 66 66 66 62 32 0a 53  ffffb2.S
+0000040: 6f 75 63 65 74 3a 20 32  oucet: 2	0000040: 6f 75 63 65 74 3a 20 32  oucet: 2
+0000048: 31 32 20 2b 20 2d 37 38  12 + -78	0000048: 31 32 20 2b 20 2d 37 38  12 + -78
+0000050: 20 3d 20 31 33 34 0a 52   = 134.R	0000050: 20 3d 20 31 33 34 0a 52   = 134.R
+0000058: 6f 7a 64 69 6c 3a 20 32  ozdil: 2	0000058: 6f 7a 64 69 6c 3a 20 32  ozdil: 2
+0000060: 31 32 20 2d 20 2d 37 38  12 - -78	0000060: 31 32 20 2d 20 2d 37 38  12 - -78
+0000068: 20 3d 20 32 39 30 0a 53   = 290.S	0000068: 20 3d 20 32 39 30 0a 53   = 290.S
+0000070: 6f 75 63 69 6e 3a 20 32  oucin: 2	0000070: 6f 75 63 69 6e 3a 20 32  oucin: 2
+0000078: 31 32 20 2a 20 2d 37 38  12 * -78	0000078: 31 32 20 2a 20 2d 37 38  12 * -78
+0000080: 20 3d 20 2d 31 36 35 33   = -1653	0000080: 20 3d 20 2d 31 36 35 33   = -1653
+0000088: 36 0a 50 6f 64 69 6c 3a  6.Podil:	0000088: 36 0a 50 6f 64 69 6c 3a  6.Podil:
+0000090: 20 32 31 32 20 2f 20 2d   212 / -	0000090: 20 32 31 32 20 2f 20 2d   212 / -
+0000098: 37 38 20 3d 20 2d 32 0a  78 = -2.	0000098: 37 38 20 3d 20 2d 32 0a  78 = -2.
+00000a0: 50 72 75 6d 65 72 3a 20  Prumer: 	00000a0: 50 72 75 6d 65 72 3a 20  Prumer: 
+00000a8: 36 37 2e 30 0a           67.0.		00000a8: 36 37 2e 30 0a           67.0.
+</pre></div>
+<div class=diff onclick="{this.style.height = this.style.height=='auto'? '1.5em':'auto'; }">Standard error output (stderr) - click to show details:
+<pre>
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+ 
+ 
+Hexdump
+ 
+EXPECTED OUTPUT                                 CURRENT OUTPUT
+================================================================================================
+</pre></div>
+   </div><div class=ok>man01</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 936 ms&#13;&#10;User time: 892 ms&#13;&#10;Sys time: 40 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man02</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 961 ms&#13;&#10;User time: 920 ms&#13;&#10;Sys time: 40 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man03</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 946 ms&#13;&#10;User time: 924 ms&#13;&#10;Sys time: 20 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man04</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 2 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 943 ms&#13;&#10;User time: 904 ms&#13;&#10;Sys time: 36 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man05</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 910 ms&#13;&#10;User time: 868 ms&#13;&#10;Sys time: 40 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man06</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 948 ms&#13;&#10;User time: 904 ms&#13;&#10;Sys time: 40 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man07</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 910 ms&#13;&#10;User time: 872 ms&#13;&#10;Sys time: 36 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man08</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 940 ms&#13;&#10;User time: 912 ms&#13;&#10;Sys time: 24 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div><div class=ok>man09</div><div class=public> <table> <tr>
+    <th>Reference:</th>
+    <th>Student:</th>
+    <th>Student + valgrind:</th>
+  </tr>
+  <tr>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 1 ms&#13;&#10;User time: 0 ms&#13;&#10;Sys time: 0 ms&#13;&#10;</td>
+    <td>Return value: 0&#13;&#10;Real time: 946 ms&#13;&#10;User time: 896 ms&#13;&#10;Sys time: 48 ms&#13;&#10;Stack memory usage: 3264 b&#13;&#10;Heap memory usage: 0 b&#13;&#10;</td>
+  </tr>
+</table> 
+</div>&nbsp;
+<div>Number of uploads: 3</div>
+&nbsp;
+<div>Evaluation ended on:
+Mon Oct  3 12:35:26 CEST 2016
+</div>

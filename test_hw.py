@@ -81,8 +81,10 @@ if len(sys.argv) > 1:
 	print(matches.group(1))
 	dirname = matches.group(1)
 	hwname = matches.group(2)
-	if dirname is None or len(dirname) > 0:
+	if dirname is not None and len(dirname) > 0:
 		du_dir = dirname
+	if hwname is None or len(hwname) == 0:
+		raise Exception("Cannot find homework name in path. Try using ./homework.c")
 	name = hwname
 # Get name of the HW and list of innuts
 if len(name) == 0:

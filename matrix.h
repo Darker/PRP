@@ -53,12 +53,12 @@ Matrix* matrix_create_fixed(size_t rows, size_t cols) {
   array_reserve(m->rows, rows);
   m->height = rows;
   // Add 'cols'
-  for(int i=0; i<rows; ++i) {
+  for(size_t i=0; i<rows; ++i) {
     Array* tmp = array_create(sizeof(long), cols);
     array_push(m->rows, &tmp);
     // Create the columns and set them to zero
     const long zero = 0;
-    for(int c=0; c<cols; ++c) {
+    for(size_t c=0; c<cols; ++c) {
       array_push(tmp, &zero);
     }
     //AR_FOREACH_PTR(item, tmp, long) {
@@ -78,8 +78,8 @@ Matrix* matrix_create_va( size_t rows, size_t cols, ... ) {
     va_start ( arguments, cols );           
     /* we still rely on the function caller to tell us how
      * many there are */
-    for(int row=0; row<rows; ++row) {
-      for(int col=0; col<cols; ++col) {
+    for(size_t row=0; row<rows; ++row) {
+      for(size_t col=0; col<cols; ++col) {
         //log_info(" - Setting [%d, %d].", row, col);
         matrix_setXY(result, row, col, va_arg ( arguments, long ));
       }
@@ -94,17 +94,17 @@ Array* matrix_getrow(const Matrix* matrix, const size_t rowIndex) {
 }
 /** Y - column
  *  X - row **/
-void matrix_setXY(Matrix* matrix, const size_t x, const size_t y, const long value) {
-  if(x>=matrix->height || y>=matrix->width) {
-    chyba("Tried to set index [%d, %d] which is out of bounds in matrix.", 78, y, x);
+void matrix_setXY(Matrix* matrix, const size_t row, const size_t col, const long value) {
+  if(row>=matrix->height || col>=matrix->width) {
+    chyba("Tried to set index [%d, %d] which is out of bounds in matrix.", 78, col, row);
   }
-  array_set(matrix_getrow(matrix, x), y, &value);
+  array_set(matrix_getrow(matrix, row), col, &value);
 }
-long matrix_getXY(const Matrix* matrix, const size_t x, const size_t y) {
-  if(x>=matrix->height || y>=matrix->width) {
-    chyba("Tried to get index [%d, %d] which is out of bounds in matrix.", 75, y, x);
+long matrix_getXY(const Matrix* matrix, const size_t row, const size_t col) {
+  if(row>=matrix->height || col>=matrix->width) {
+    chyba("Tried to get index [%d, %d] which is out of bounds in matrix.", 75, col, row);
   }
-  return *((long*)array_get(matrix_getrow(matrix, x), y));
+  return *((long*)array_get(matrix_getrow(matrix, row), col));
 }
 void matrix_print(const Matrix* matrix, FILE* stream) {
   Array* row;
@@ -130,12 +130,39 @@ void matrix_print_prp_1(const Matrix* matrix, FILE* stream) {
     fprintf(stream, "\n");
   }
 }
+Matrix* matrix_read_prp_1(FILE* stream) {
+  int height, width;
+  int charsRead = fscanf(stream, "%d %d\n", &height, &width);
+  if(charsRead != 2)
+      chyba("Neplatny vstup!", 100);
+  const char* number = "%ld";
+  const char* endNumber = "%ld\n";
+  int row = 0;
+  int col = 0;
+  Matrix* result = matrix_create_fixed(height, width);
+  for(row=0; row<height; ++row) {
+      for(col=0; col<width; ++col) {
+          long xynumber = 0;
+          int noRead = fscanf(stream, col+1==width?endNumber:number, &xynumber);
+          if(noRead!=1) {
+              //result = matrix_destroy(result);
+              //break;
+              chyba("Neplatny vstup!", 100);
+          }
+          else {
+              matrix_setXY(result, row, col, xynumber);
+          }
+      }
+  }
+  return result;
+}
+
 Matrix* matrix_clone(Matrix* original) {
   Matrix* result = matrix_create_fixed(original->height, original->width);
   result->fixed_length = original->fixed_length;
   // Copy all items
-  for(int row=0; row<original->height; ++row) {
-    for(int col=0; col<original->height; ++col) {
+  for(size_t row=0; row<original->height; ++row) {
+    for(size_t col=0; col<original->height; ++col) {
       matrix_setXY(result, row, col, matrix_getXY(original, row, col));
     }
   }
@@ -157,8 +184,8 @@ Matrix* matrix_add_multiplier(const Matrix* A, const Matrix* B, const long m_A, 
     return NULL;
   }
   Matrix* res = matrix_create_fixed(A->height, A->width);
-  for(int row=0; row<A->height; ++row) {
-    for(int col=0; col<A->width; ++col) {
+  for(size_t row=0; row<A->height; ++row) {
+    for(size_t col=0; col<A->width; ++col) {
       matrix_setXY(res, row, col, m_A*matrix_getXY(A, row, col)+m_B*matrix_getXY(B, row, col));
     }
   }
@@ -166,8 +193,8 @@ Matrix* matrix_add_multiplier(const Matrix* A, const Matrix* B, const long m_A, 
 }
 Matrix* matrix_multiply_scalar(const Matrix* A, const long scalar) {
   Matrix* res = matrix_create_fixed(A->height, A->width);
-  for(int row=0; row<A->height; ++row) {
-    for(int col=0; col<A->width; ++col) {
+  for(size_t row=0; row<A->height; ++row) {
+    for(size_t col=0; col<A->width; ++col) {
       matrix_setXY(res, row, col, scalar*matrix_getXY(A, row, col));
     }
   }
@@ -182,12 +209,12 @@ Matrix* matrix_multiply_matrices(const Matrix* A, const Matrix* B) {
   }
   Matrix* res = matrix_create_fixed(A->height, B->width);
   // first loop by A's rows (which are as long as B's columns)
-  for(int arow=0; arow<A->height; ++arow) {
+  for(size_t arow=0; arow<A->height; ++arow) {
     // For every A's row, go through B's columns
-    for(int bcol=0; bcol<B->width; ++bcol) {
+    for(size_t bcol=0; bcol<B->width; ++bcol) {
       // And every nth item in A's row corresponds with B's col item
       int sum = 0;
-      for(int item=0; item<A->width; ++item) {
+      for(size_t item=0; item<A->width; ++item) {
         sum += matrix_getXY(A, arow, item)*matrix_getXY(B, item, bcol);
       }
       matrix_setXY(res, arow, bcol, sum);
@@ -195,13 +222,17 @@ Matrix* matrix_multiply_matrices(const Matrix* A, const Matrix* B) {
   }
   return res;
 }
-void matrix_destroy(Matrix* matrix) {
+// Returns NULL always, for convenience
+// eg. myMatrix = matrix_destroy(myMatrix)
+// ensures you don't have pointer to unallocated memory
+Matrix* matrix_destroy(Matrix* matrix) {
   Array* row;
   AR_FOREACH(row, matrix->rows, Array*) {
      array_destroy(row);
   }
   array_destroy(matrix->rows);
   free(matrix);
+  return NULL;
 }
 
 // Simple struct to destroy all matrices

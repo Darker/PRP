@@ -24,6 +24,10 @@ const int range_error_code;
     #else
         #define PAUSE system("read -n1 -r -p \"Press any key to continue...\"")
     #endif
+    #ifdef QT_CREATOR
+        #undef PAUSE
+        #define PAUSE
+    #endif
 
     #undef HW_MAIN_TPL
     #define HW_MAIN_TPL(hw_name)   int main(int argc, char *argv[]) {int tmp = HW_CALL_TPL(argc, argv, hw_name);PAUSE;return tmp;}
@@ -46,7 +50,9 @@ const int range_error_code;
     #define chyba_debug(E, N, ...) 
     #define chyba1(E, ...) {exit(1);}
     #define PAUSE
-    #define log_info(M, ...) 
+    #define log_info(M, ...)
+    #define log_err(M, ...)
+    #define log_warn(M, ...)
 #endif
 
 #if !defined (HOME) || defined (NORMAL_MAIN)

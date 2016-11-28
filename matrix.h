@@ -37,6 +37,7 @@ typedef struct {
 
 void matrix_setXY(Matrix* matrix, const size_t x, const size_t y, const long value);
 Matrix* matrix_add_multiplier(const Matrix* A, const Matrix* B, const long m_A, const long m_B);
+Matrix* matrix_destroy(Matrix *matrix);
 
 Matrix* matrix_create() {
   Matrix* m = NEW(Matrix);
@@ -88,6 +89,33 @@ Matrix* matrix_create_va( size_t rows, size_t cols, ... ) {
 
     return result;
 }
+void matrix_expand(Matrix* matrix, size_t rows, size_t cols) {
+    if( matrix->fixed_length ) {
+        chyba_debug("Tried to expand fixed matrix.", 79);
+        return;
+    }
+    const long zero = 0;
+    if(matrix->width > cols)
+        cols = matrix->width;
+    // add missing rows
+    while(matrix->rows->length<rows) {
+        Array* tmp = array_create(sizeof(long), cols);
+        array_push(matrix->rows, &tmp);
+        // fill the matrix with zeroes
+        for(size_t c=0; c<cols; ++c) {
+          array_push(tmp, &zero);
+        }
+    }
+    matrix->height = matrix->rows->length;
+    // add missing columns
+    Array* row;
+    AR_FOREACH(row, matrix->rows, Array*) {
+      while(row->length < cols) {
+          array_push(row, &zero);
+      }
+    }
+    matrix->width = cols;
+}
 
 Array* matrix_getrow(const Matrix* matrix, const size_t rowIndex) {
   return *((Array**)array_get(matrix->rows, rowIndex));
@@ -96,13 +124,21 @@ Array* matrix_getrow(const Matrix* matrix, const size_t rowIndex) {
  *  X - row **/
 void matrix_setXY(Matrix* matrix, const size_t row, const size_t col, const long value) {
   if(row>=matrix->height || col>=matrix->width) {
-    chyba("Tried to set index [%d, %d] which is out of bounds in matrix.", 78, col, row);
+      if(matrix->fixed_length) {
+          chyba_debug("Tried to set index [%d, %d] which is out of bounds in matrix.", 78, col, row);
+          return;
+      }
+      else {
+          log_warn("Implicit expansion of matrix!");
+          matrix_expand(matrix, row+1, col+1);
+      }
   }
   array_set(matrix_getrow(matrix, row), col, &value);
 }
 long matrix_getXY(const Matrix* matrix, const size_t row, const size_t col) {
   if(row>=matrix->height || col>=matrix->width) {
-    chyba("Tried to get index [%d, %d] which is out of bounds in matrix.", 75, col, row);
+    chyba_debug("Tried to get index [%d, %d] which is out of bounds in matrix.", 75, col, row);
+    return -1;
   }
   return *((long*)array_get(matrix_getrow(matrix, row), col));
 }
@@ -119,22 +155,53 @@ void matrix_print(const Matrix* matrix, FILE* stream) {
     fprintf(stream, "||\n");
   }
 }
+void matrix_print_wolfram(const Matrix* matrix, FILE* stream) {
+  Array* row;
+  long number;
+  bool firstRow = true;
+  fprintf(stream, "{");
+  AR_FOREACH(row, matrix->rows, Array*)
+  {
+      if(firstRow)
+          firstRow = false;
+      else
+          fprintf(stream, ",");
+
+      fprintf(stream, "{");
+      bool firstCol = true;
+      AR_FOREACH(number, row, long)
+      {
+          if(firstCol)
+              firstCol = false;
+          else
+              fprintf(stream, ",");
+          fprintf(stream, "%ld", number);
+      }
+      fprintf(stream, "}");
+  }
+  fprintf(stream, "}");
+}
 void matrix_print_prp_1(const Matrix* matrix, FILE* stream) {
   Array* row;
   long number;
-  fprintf(stream, "%d %d", (int)matrix->height, (int)matrix->width);
+  fprintf(stream, "%d %d\n", (int)matrix->height, (int)matrix->width);
   AR_FOREACH(row, matrix->rows, Array*) {
-    AR_FOREACH(number, row, long) {
-      fprintf(stream, "%ld ", number);
-    }
-    fprintf(stream, "\n");
+      bool firstCol = true;
+      AR_FOREACH(number, row, long) {
+          if(firstCol)
+              firstCol = false;
+          else
+              fprintf(stream, " ");
+          fprintf(stream, "%ld", number);
+      }
+      fprintf(stream, "\n");
   }
 }
 Matrix* matrix_read_prp_1(FILE* stream) {
   int height, width;
   int charsRead = fscanf(stream, "%d %d\n", &height, &width);
   if(charsRead != 2)
-      chyba("Neplatny vstup!", 100);
+      return NULL;
   const char* number = "%ld";
   const char* endNumber = "%ld\n";
   int row = 0;
@@ -145,9 +212,8 @@ Matrix* matrix_read_prp_1(FILE* stream) {
           long xynumber = 0;
           int noRead = fscanf(stream, col+1==width?endNumber:number, &xynumber);
           if(noRead!=1) {
-              //result = matrix_destroy(result);
-              //break;
-              chyba("Neplatny vstup!", 100);
+              matrix_destroy(result);
+              return NULL;
           }
           else {
               matrix_setXY(result, row, col, xynumber);
@@ -156,7 +222,77 @@ Matrix* matrix_read_prp_1(FILE* stream) {
   }
   return result;
 }
+Matrix* matrix_read_prp_2(FILE* stream, char* name) {
+  int row = 0;
+  int col = 0;
+  // First read matrice's name (should be capital letter)
+  if(fscanf(stream, "%c=[", name)!=1 || (*name<'A' || *name>'Z'))
+      return NULL;
+  // Now numbers
+  long number = 0;
+  Matrix* result = matrix_create();
+  while( true ) {
+      if(fscanf(stream, "%ld", &number)!=1) {
+          return matrix_destroy(result);
+      }
+      // expansion every column, but only the first row
+      // then all rows should be the same length
+      if(row==0) {
+          matrix_expand(result, row+1, col+1);
+      }
+      else if(col>=result->width) {
+          log_warn("Failed to load matrix - inconsistent row lengths row=%d col=%d width=%d", row, col, result->width);
+          return matrix_destroy(result);
+      }
+      matrix_setXY(result, row, col, number);
+      // Now one character
+      // if it's semicolon, we're reading next row
+      char character = '#';
+      if(fscanf(stream, "%c", &character)!=1 || (character!=';' && character!=' ' && character!=']')) {
+          return matrix_destroy(result);
+      }
+      if(character==';') {
+          if(col != result->width-1) {
+              log_warn("Failed to load matrix - inconsistent row lengths row=%d col=%d width=%d", row, col, result->width);
+              return matrix_destroy(result);
+          }
+          ++row;
+          col = 0;
+          matrix_expand(result, row+1, result->width);
+      }
+      else if(character==']') {
+          break;
+      }
+      else {
+          ++col;
+      }
+  }
+  return result;
+}
+void matrix_print_prp_2(const Matrix* matrix, FILE* stream) {
+  Array* row;
+  long number;
+  bool firstRow = true;
+  fprintf(stream, "[");
+  AR_FOREACH(row, matrix->rows, Array*)
+  {
+      if(firstRow)
+          firstRow = false;
+      else
+          fprintf(stream, "; ");
 
+      bool firstCol = true;
+      AR_FOREACH(number, row, long)
+      {
+          if(firstCol)
+              firstCol = false;
+          else
+              fprintf(stream, " ");
+          fprintf(stream, "%ld", number);
+      }
+  }
+  fprintf(stream, "]\n");
+}
 Matrix* matrix_clone(Matrix* original) {
   Matrix* result = matrix_create_fixed(original->height, original->width);
   result->fixed_length = original->fixed_length;
@@ -174,13 +310,13 @@ Matrix* matrix_add(const Matrix* A, const Matrix* B) {
   return matrix_add_multiplier(A, B, 1, 1);
 }
 Matrix* matrix_subtract(const Matrix* A, const Matrix* B) {
-  return matrix_add_multiplier(A, B, -1, 1);
+  return matrix_add_multiplier(A, B, 1, -1);
 }
 // Adds two matrices but also multiplies their elements by given multipliers
 // best used for subtraction where one multiplier is -1
 Matrix* matrix_add_multiplier(const Matrix* A, const Matrix* B, const long m_A, const long m_B) {
   if(A->width!=B->width || A->height!=B->height) {
-    chyba("Adding matrices of different size!", 18);
+    chyba_debug("Adding matrices of different size!", 18);
     return NULL;
   }
   Matrix* res = matrix_create_fixed(A->height, A->width);
@@ -201,10 +337,8 @@ Matrix* matrix_multiply_scalar(const Matrix* A, const long scalar) {
   return res;
 }
 Matrix* matrix_multiply_matrices(const Matrix* A, const Matrix* B) {
-  if(A->width!=B->height || A->height!=B->width) {
-    chyba("Multiplying mattrices of invalid dimensions, (%d by %d)x(%d by %d)!", 19,
-      A->width, A->height, B->height, B->width
-    );
+  if(A->width!=B->height) {
+    chyba_debug("Multiplying mattrices of invalid dimensions, (%d by %d)x(%d by %d)!", 19,A->width, A->height, B->height, B->width);
     return NULL;
   }
   Matrix* res = matrix_create_fixed(A->height, B->width);
@@ -231,6 +365,10 @@ Matrix* matrix_destroy(Matrix* matrix) {
      array_destroy(row);
   }
   array_destroy(matrix->rows);
+  // for debug
+  matrix->height = 666;
+  matrix->width = 666;
+  matrix->rows = NULL;
   free(matrix);
   return NULL;
 }
@@ -247,7 +385,16 @@ MatrixMgr* mmgr_create() {
 }
 // Conveniently returns Matrix* to allow chaining... sort of
 Matrix* mmgr_add(MatrixMgr* mgr, Matrix* matrix) {
-  array_push(mgr->matrices, &matrix);
+  if( matrix!=NULL ) {
+      int index = array_find(mgr->matrices, (void*)&matrix);
+      if(index !=-1) {
+          log_warn("Adding existing matrix to manager!");
+      }
+      else {
+          array_push(mgr->matrices, &matrix);
+      }
+
+  }
   return matrix;
 }
 /* Destroys the manager and all contained matrices **/

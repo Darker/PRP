@@ -1,0 +1,55 @@
+['test_hw.py', 'HWSOMEONE.c']
+<_sre.SRE_Match object; span=(0, 11), match='HWSOMEONE.c'>
+None
+Running tests on ./HWSOMEONE
+Test case: blbost1
+    ...OK
+
+Test case: blbost2
+ERROR: Return code: 0 does not match required code 100
+ERROR: Output does not match required output. (note that empty file is also kind of required output).
+DIFF:
+
+- 2 1\n
+- -6013\n
+- -6013\n
+
+ERROR: Error output does not match required output.
+DIFF:
+
++ Error: Chybny vstup!\n
+
+
+----------------------------
+
+Test case: jakub-1
+    ...OK
+
+Test case: pub01-m
+    ...OK
+
+Test case: pub02-m
+    ...OK
+
+Test case: pub03-m
+    ...OK
+
+Test case: pub04-m
+    ...OK
+
+Test case: pub05-m
+    ...OK
+
+Test case: pub06-m
+    ...OK
+
+Test case: pub07-m
+    ...OK
+
+Test case: pub08-m
+    ...OK
+
+Test case: pub09-m
+    ...OK
+
+Press enter to quit

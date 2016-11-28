@@ -1,5 +1,7 @@
-//gcc HW04.c -DHOME -DNORMAL_MAIN -std=c99 -oHW04 && ./HW04
-//gcc HWXX.c -DHOME -DNORMAL_MAIN -std=c99 -oHWXX && ./HWXX
+// test/debug:
+//    gcc HWXX.c -DHOME -DNORMAL_MAIN -std=c99 -oHWXX && ./HWXX
+// test normal:
+//    gcc HWXX.c -std=c99 -oHWXX && ./HWXX
 #ifndef HWXX_H
 #define HWXX_H
 #include "hw_templates.h"

@@ -12,7 +12,8 @@ SOURCES += main.c \
     #HWNAN.c \
     #HW03.c \
     #HW05.c \
-    HW05B.c
+    #HW05B.c \
+    HW06.c
 
 HEADERS += \
     hw_templates.h \
@@ -26,4 +27,9 @@ HEADERS += \
     arrays.h \
     matrix.h \
     matrix_operation.h \
-    HW05B.h
+    HW05B.h \
+    HW06.h \
+    HWXX.h \
+    strings.h \
+    arrays_char.h \
+    char_info.h

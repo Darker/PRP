@@ -97,6 +97,7 @@ c_file_path = du_dir + name + ".c"
 stdout = []
 stderr = []
 return_codes = []
+argslists = []
 # Helper array to remember names of individual inputs
 names = []
 filename_regex = re.compile("[/\\\\](([^\\\\/]+)\.in)$")
@@ -115,6 +116,12 @@ for index in range(len(inputs)):
         return_codes.append(0)
     else:
         return_codes.append(int(open(testdir+retcode, 'r').read()))
+
+    args = file_or_none(case_name+".args", testdir)
+    if args is None:
+        argslists.append([])
+    else:
+        argslists.append(open(testdir+args, 'r').read().split(" "))
         
     names.append(case_name)
     
@@ -142,7 +149,9 @@ for index in range(len(inputs)):
     print("Test case: "+ casename)
     # Load test input from file
     myinput = open(testdir + inputs[index])
-    process = Popen([execname], stdin=myinput, stdout=PIPE, stderr=PIPE)
+    # load args, if any
+    
+    process = Popen([execname]+argslists[index], stdin=myinput, stdout=PIPE, stderr=PIPE)
     (out, err) = process.communicate()
     exit_code = process.wait()
     out = clear_carriage_returns(str(out.decode('ascii')))

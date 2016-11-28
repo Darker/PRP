@@ -26,6 +26,14 @@ bool readInRange(int* target, const int min, const int max) {
     validateRangeErr(*target, min,max);
     return true;
 }
+int min_3(int a, int b, int c) {
+    if(a<b) {
+        return a<c?a:c;
+    }
+    else {
+        return b<c?b:c;
+    }
+}
 
 
 

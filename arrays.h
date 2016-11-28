@@ -114,6 +114,28 @@ void array_push(Array* a, const void* element) {
   }
   memcpy(((char*)a->array) + (a->length++)*a->elm_size, element, a->elm_size);
 }
+/**
+ * Removes last element from the array. The elements value cannot be retrieved
+ * because fucking C has no templates.
+ * @returns new size of the array
+**/
+size_t array_pop_back(Array* a) {
+    if(a->length <= 0) {
+      printf("Error: pop_back from empty array.\a\n");
+      exit(168);
+    }
+    return --(a->length);
+}
+/**
+ * Removes all elements form array.
+ * @returns emptiness of the void
+**/
+void array_clear(Array* a) {
+    if(a->length > 0) {
+      a->length = 0;
+    }
+}
+
 /** Retrieves index of array. If out of bounds, exit() is called and 
  * error appears on stdout (todo: change to stderr) */
 void* array_get(Array* a, size_t offset) {
@@ -337,73 +359,5 @@ void arrmap_destroy(ArrayMap* map) {
   array_destroy(&map->values);
 }
 
-/**String**/
-typedef struct {
-  size_t length;
-  size_t size;
-  char* c_str;
-} String;
-
-void str_create(String* s, int initsize) {
-  if(initsize<1)
-    initsize = 1;
-  s->c_str = NULL;
-  s->c_str = (char*)calloc(initsize, sizeof(char));
-  if(s->c_str==NULL) {
-    printf("ERROR: failed to allocate memory!\n");
-    exit(1);
-  }                  
-  s->c_str[0] = 0;
-  s->size = initsize;
-  s->length = 0;
-}
-void str_add_char(String* s, const char ch) {
-  size_t length = s->length;
-  if(length+1>=s->size) {
-    s->size+=s->size/2+2;
-    char* newP = NULL;
-    newP = (char*)realloc(s->c_str, s->size*sizeof(char));
-    if(newP==NULL) {
-      log_err("Failed to allocate memory of size %d", (unsigned int)s->size);
-    }  
-    else {
-      //log_info("Sucesfully allocated memory (%d bytes total)", s->size);
-      s->c_str = newP;
-    }
-  }
-  s->c_str[length]=ch;
-  s->c_str[length+1] = 0;
-  s->length++;
-}
-void str_add_string(String* s, const char* c_str) {
-  size_t length = s->length;
-  size_t strl = strlen(c_str);
-  
-  if(length+strl>=s->size) {
-    s->size+=strl+1+1;
-    char* newP = NULL;
-    newP = (char*)realloc(s->c_str, s->size*sizeof(char));
-    if(newP==NULL) {
-      log_err("Failed to allocate memory of size %d", (unsigned int)s->size);
-    }  
-    else {
-      s->c_str = newP;
-    }
-  }
-  memcpy(s->c_str+length, c_str, strl);
-  s->c_str[length+strl+1] = 0;
-  s->length+=strl;
-}
-void str_clear(String* s) {
-  //memset(s->c_str, 0, s->length);
-  s->length = 0;
-  if(s->size>0)
-    s->c_str[0] = 0;
-}
-void str_destroy(String* s) {
-  free(s->c_str);
-  s->c_str = NULL;
-  s->length = s->size = 0;
-}
 
 #endif

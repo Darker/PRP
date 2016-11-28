@@ -1,8 +1,9 @@
 HW*.c
 !HWXX.c
-main.c
 *.zip
 *.exe
 HW*
 *.pyc
 sys
+for_podr/
+TMP/

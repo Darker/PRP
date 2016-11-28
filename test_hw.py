@@ -46,6 +46,7 @@ if sys.version_info < (3, 0):
     def console_input(prompt):
         return raw_input(prompt)
     str_type = basestring
+    sys.maxsize = sys.maxint
 else:
     def console_input(prompt):
         return input(prompt)
@@ -100,6 +101,7 @@ stdout = []
 stderr = []
 return_codes = []
 argslists = []
+timeouts = []
 # Helper array to remember names of individual inputs
 names = []
 filename_regex = re.compile("[/\\\\](([^\\\\/]+)\.in)$")
@@ -124,7 +126,18 @@ for index in range(len(inputs)):
         argslists.append([])
     else:
         argslists.append(open(testdir+args, 'r').read().split(" "))
-        
+
+    timeout = file_or_none(case_name+".time", testdir)
+    timeout_no = sys.maxsize
+    if timeout is not None:
+        try:
+            time = open(testdir+timeout, 'r').read()
+            timeout_no = int(time)
+        except ValueError:
+            #Handle the exception
+            print("ERROR in "+testdir+case_name+".time - Timeout must be a number, that wasn't number.") 
+    timeouts.append(timeout_no)
+
     names.append(case_name)
     
 # Compile the homework assignment using GCC
@@ -141,7 +154,7 @@ if return_code != 0:
 from DiffStuff import print_diff
 execname = du_dir+name
 
-import platform
+import platform, threading
 import time
 if platform.system() == "Windows":
     name = name + ".exe"

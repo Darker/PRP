@@ -29,13 +29,15 @@ def show_exception_and_exit(exc_type, exc_value, tb):
     sys.exit(-1)
 sys.excepthook = show_exception_and_exit
 
-test_dir = "./"
+test_name = ""
+test_dir = ""
 if len(sys.argv) > 1:
     if os.path.isdir(sys.argv[1]):
         test_dir = sys.argv[1]
     else:
         print("ERROR: path ", path, " invalid!")
-
+if len(sys.argv) > 2:
+    test_name =  sys.argv[2]
 # Get name of the HW and list of innuts
 if len(test_dir) == 0:
     test_dir = console_input("Enter directory:")

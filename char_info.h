@@ -1,8 +1,8 @@
 #ifndef CHAR_INFO_H
 #define CHAR_INFO_H
 #include "types.h"
-#define NO_LOWERCASE_LETTERS 'z'-'a'
-#define NO_UPPERCASE_LETTERS 'Z'-'A'
+#define NO_LOWERCASE_LETTERS 'z'-'a'+1
+#define NO_UPPERCASE_LETTERS 'Z'-'A'+1
 #define NO_LETTERS NO_LOWERCASE_LETTERS+NO_UPPERCASE_LETTERS
 bool is_lowercase_letter(const char chr) {
     return chr>='a' && chr<='z';
@@ -64,7 +64,7 @@ char next_nth_letter(char chr, char count) {
             //printf("  Wrap around, remains %c by %d\n", chr, (int)count);
             // now, if count is bigger than no letters
             // we have to wrap around again
-            if(count>no_letters)
+            if(count>=no_letters)
                 return next_nth_letter(chr, count);
             else
                 return chr+count;

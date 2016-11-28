@@ -179,46 +179,57 @@ int str_levenshtein_dist(const String* const s1, const String* const s2) {
     const char* s1_str = str_cstr(s1);
     const char* s2_str = str_cstr(s2);
 
-    int matrix[s1_len+1][s2_len+1];
-    memset((void*)matrix, 0, sizeof(matrix));
+    int (*matrix)[s1_len+1][s2_len+1] = malloc(sizeof(float[s1_len+1][s2_len+1]));
+//    int** const matrix = (int**)calloc(sizeof(int*), s1_len+1);
+//    memset((void*)matrix, 0, sizeof(matrix));
+//    for(size_t i=0; i<=s1_len; ++i) {
+//        matrix[i] = (int*)calloc(sizeof(int), s1_len+2);
+//    }
+
+    memset(matrix, 0, sizeof(int[s1_len+1][s2_len+1]));
 
     for(size_t i=0; i<=s1_len; ++i) {
-        matrix[i][0] = i;
+        (*matrix)[i][0] = (int)i;
     }
     for(size_t i=0; i<=s2_len; ++i) {
-        matrix[0][i] = i;
+        (*matrix)[0][i] = (int)i;
     }
 
     for(size_t j=1; j<=s2_len; ++j) {
         for(size_t i=1; i<=s1_len; ++i) {
 
             if( s1_str[i-1]==s2_str[j-1] ) {
-                matrix[i][j] = matrix[i-1][j-1];
+                (*matrix)[i][j] = (int)(*matrix)[i-1][j-1];
             }
             else {
-                matrix[i][j] = min_3(
-                            matrix[i-1][j  ] + 1,
-                            matrix[i  ][j-1] + 1,
-                            matrix[i-1][j-1] + 1
+                (*matrix)[i][j] = (int)min_3(
+                            (*matrix)[i-1][j  ] + 1,
+                            (*matrix)[i  ][j-1] + 1,
+                            (*matrix)[i-1][j-1] + 1
                 );
             }
 
         }
     }
 #ifdef HOME
-    printf("Matrix:\n");
-    for(size_t j=0; j<=s2_len; ++j) {
-        for(size_t i=0; i<=s1_len; ++i) {
-           printf("%3d ", matrix[i][j]);
-        }
-        printf("\n\n");
-    }
-    printf("----------------\n");
+//    printf("Matrix:\n");
+//    for(size_t j=0; j<=s2_len; ++j) {
+//        for(size_t i=0; i<=s1_len; ++i) {
+//           printf("%3d ", (*matrix)[i][j]);
+//        }
+//        printf("\n\n");
+//    }
+//    printf("----------------\n");
 #endif
 //    if( matrix[s1_len][s2_len]!=levenshtein(s1_str, s2_str) ) {
 //        chyba_debug("Levenshtein output does not match: %d vs %d", 112, matrix[s1_len][s2_len], levenshtein(s1_str, s2_str));
 //    }
-    return matrix[s1_len][s2_len];
+    int result = (*matrix)[s1_len][s2_len];
+//    for(size_t i=0; i<=s1_len; ++i) {
+//        free(matrix[i]);
+//    }
+    free(matrix);
+    return result;
 }
 void str_clear(String* s) {
   array_clear(s->char_array);

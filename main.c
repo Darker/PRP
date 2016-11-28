@@ -1,0 +1,2 @@
+#include "HW06.h"
+HW_MAIN_TPL(CURRENT_HW)

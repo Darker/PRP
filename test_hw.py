@@ -45,9 +45,11 @@ import sys
 if sys.version_info < (3, 0):
     def console_input(prompt):
         return raw_input(prompt)
+    str_type = basestring
 else:
     def console_input(prompt):
         return input(prompt)
+    str_type = str
 
 import glob
 import re
@@ -140,22 +142,29 @@ from DiffStuff import print_diff
 execname = du_dir+name
 
 import platform
-
+import time
 if platform.system() == "Windows":
     name = name + ".exe"
 print("Running tests on "+execname + "")
 for index in range(len(inputs)):
     casename = names[index]
     print("Test case: "+ casename)
+    sys.stdout.flush()
     # Load test input from file
     myinput = open(testdir + inputs[index])
     # load args, if any
-    
+    time_start = time.clock()
     process = Popen([execname]+argslists[index], stdin=myinput, stdout=PIPE, stderr=PIPE)
     (out, err) = process.communicate()
     exit_code = process.wait()
-    out = clear_carriage_returns(str(out.decode('ascii')))
-    err = clear_carriage_returns(str(err.decode('ascii')))
+    time_end = time.clock()
+    
+    if not isinstance(out, str_type):
+        out = str(out.decode('ascii'))
+    if not isinstance(err, str_type):
+        err = str(err.decode('ascii'))
+    out = clear_carriage_returns(out)
+    err = clear_carriage_returns(err)
     rq_code = return_codes[index]
     rq_out = None
     if stdout[index] is not None:
@@ -167,25 +176,26 @@ for index in range(len(inputs)):
     problem = False
     
     if exit_code!=rq_code:
-        print("ERROR: Return code: "+str(exit_code)+" does not match required code "+str(rq_code))
+        print("  ERROR: Return code: "+str(exit_code)+" does not match required code "+str(rq_code))
         problem = True
     if (rq_out is not None) and rq_out!=out:
-        print("ERROR: Output does not match required output. (note that empty file is also kind of required output).")
-        print("DIFF:\n")
+        print("  ERROR: Output does not match required output. (note that empty file is also kind of required output).")
+        print("  DIFF:\n")
         print_diff(out, rq_out)
         problem = True
     if (rq_err is not None) and rq_err!=err:
-        print("ERROR: Error output does not match required output.")
+        print("  ERROR: Error output does not match required output.")
         if err is None:
             print("    ... there was no error output at all.\n")
         else:
-            print("DIFF:\n")
+            print("  DIFF:\n")
             print_diff(err, rq_err)
         problem = True
-    
+    print("\n  Duration: "+str(time_end-time_start)+" ms")
     if problem:
-        print("\n----------------------------\n")
+        print("    ERROR!!!\n")
     else:
         print("    ...OK\n")
+    print("\n----------------------------\n")
         
 console_input("Press enter to quit");

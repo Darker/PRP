@@ -1,10 +1,12 @@
 HW*.c
+HW*.h
+HW*.exe
 !HWXX.c
 *.zip
 *.exe
-HW*
 *.pyc
 sys
 for_podr/
 TMP/
 main/
+TEST-HWSOMEONE

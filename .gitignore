@@ -2,6 +2,8 @@ HW*.c
 HW*.h
 HW*.exe
 !HWXX.c
+!HW*/
+!HW*/**
 *.zip
 *.exe
 *.pyc
@@ -10,3 +12,4 @@ for_podr/
 TMP/
 main/
 TEST-HWSOMEONE
+*HWSOMEONE*

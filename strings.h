@@ -119,7 +119,30 @@ bool str_is_empty(const String* const s) {
 char str_at(const String* const s, size_t offset) {
     return array_get_char(s->char_array, offset);
 }
-
+char str_last_char(const String* const s) {
+    return str_at(s, str_len(s)-1);
+}
+/**
+ * Returns POINTER to character at given offset. ONLY FOR IMMEDIATE USE!!!
+ */
+char* str_at_ref(const String* const s, size_t offset) {
+    if(offset<str_len(s))
+        return ((char*)s->char_array->array)+offset;
+    else {
+        chyba("Tried to access offset %ud in a string %ud characters long.", 113, offset, str_len(s));
+    }
+}
+int str_index_of_char(const String* const s, const char character) {
+    for(size_t i=0, l=str_len(s); i<l; ++i) {
+        if(str_at(s, i) == character) {
+            return i;
+        }
+    }
+    return -1;
+}
+bool str_contains_char(const String* const s, const char character) {
+    return str_index_of_char(s, character)>=0;
+}
 /** compares two strings.  example for "a" and "b" this function returns 1 abs('a'-'b')
   output is sum of absolute values of each char's differences.
   if lengths differ, every extra character adds +127 to diff.

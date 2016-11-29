@@ -192,6 +192,21 @@ int array_find(Array* a, void* value) {
   }
   return -1;
 }
+/** sorts the array using provided comparator method
+ * if metod not provided, memcmp is used
+ * Comparator signature
+ *
+ *  int memcmp ( const void * ptr1, const void * ptr2, size_t type_size );
+ * you should be able to cast your comparator
+ * to void* even if it is typed. Remember to realise corectly the size of the array entry type
+**/
+#include "q_sort_flex.h"
+void array_sort(Array* a, int(*comparator)(const void*, const void*, size_t)) {
+    if(comparator == NULL)
+        comparator = &memcmp;
+    qsort_flexible(a->array, a->length, a->elm_size, comparator);
+}
+
 void array_destroy(Array* a) {
   free(a->array);
   a->array = NULL;

@@ -13,7 +13,9 @@ SOURCES += main.c \
     #HW03.c \
     #HW05.c \
     #HW05B.c \
-    HW06.c
+    #HW06.c \
+    HW07.c \
+    HW07/lock.c
 
 HEADERS += \
     hw_templates.h \
@@ -32,4 +34,5 @@ HEADERS += \
     HWXX.h \
     strings.h \
     arrays_char.h \
-    char_info.h
+    char_info.h \
+    HW07.h

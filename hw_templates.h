@@ -47,6 +47,8 @@ const int range_error_code;
     #define chyba1(E, ...) {exit(1);}
     #define PAUSE
     #define log_info(M, ...) 
+    #define log_warn(M, ...)
+    #define log_info(M, ...)
 #endif
 
 #if !defined (HOME) || defined (NORMAL_MAIN)

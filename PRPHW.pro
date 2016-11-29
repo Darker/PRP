@@ -5,7 +5,7 @@ CONFIG -= qt
 QMAKE_CFLAGS += -std=c99
 DEFINES += HOME
 DEFINES += QT_CREATOR
-#dddsf
+#ddsdsf
 
 SOURCES += main.c \
     #HW02.c \
@@ -35,4 +35,5 @@ HEADERS += \
     strings.h \
     arrays_char.h \
     char_info.h \
-    HW07.h
+    HW07.h \
+    HW07/lock.h

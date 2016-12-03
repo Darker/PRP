@@ -6,7 +6,7 @@
 # IO of your homework.
 #
 # Requirements:
-#    gcc compiler, must beon system path
+#    gcc compiler, must be on system path
 # 
 # Parameters:
 #    Drag'n'Drop: Drag your homework C file on this script. The file MUST have .c extension
@@ -19,7 +19,8 @@
 #      - Every test output must have ".out" extension
 #      - Every test standard error output must have ".err" extension
 #      - Every required error code must be in ".code" file
-#     All aforementioned files must shar the same name. Eg "test.in", "test.out", "test.err" and "test.code".
+#      - Parameters to pass to the program must be in ".args" file
+#     All aforementioned files must share the same name. Eg "test.in", "test.out", "test.err" and "test.code".
 #     Test input files are required to exist in order to start the test.
 #     All other files are optional, if missing, output will not be checked.
 #     Error code is always checked and must be 0 unless specified otherwise in .code file.
@@ -76,8 +77,9 @@ sys.excepthook = show_exception_and_exit
 
 name = "";
 du_dir = "./"
+execname = ""
 if len(sys.argv) > 1:
-    c_regex = re.compile("([a-zA-Z0-9_\-\./\\\\: ]+[\\\\/])?([a-zA-Z0-9_\-\.]+)\.c$")
+    c_regex = re.compile("([a-zA-Z0-9_\-\./\\\\: ]+[\\\\/])?([a-zA-Z0-9_\-\.]+)\.(c|exe)$")
     matches = c_regex.match(sys.argv[1])
     #print(sys.argv)
     #print(matches)
@@ -87,8 +89,10 @@ if len(sys.argv) > 1:
     if dirname is not None and len(dirname) > 0:
         du_dir = dirname
     if hwname is None or len(hwname) == 0:
-        raise Exception("Cannot find homework name in path. Try using ./homework.c")
+        raise Exception("Cannot find homework name in path. Try using ./homework.c or ./homework.exe")
     name = hwname
+    if matches.group(3)=="exe":
+        execname = path.join(du_dir, name)
 # Get name of the HW and list of innuts
 if len(name) == 0:
     name = console_input("Enter HW name (without extension, eg \"HW02\" or \"main\"):")
@@ -139,25 +143,26 @@ for index in range(len(inputs)):
     timeouts.append(timeout_no)
 
     names.append(case_name)
-    
-# Compile the homework assignment using GCC
-from subprocess import Popen, PIPE
-compile_args = ["gcc", "-Wall","-pedantic", "-std=c99", c_file_path, "-o"+du_dir+name]
-process = Popen(compile_args)
-return_code = process.wait()
-if return_code != 0:
-    raise Exception("Error during compilation... sorry.")
+
+if execname=="" or len(execname)==0:
+    # Compile the homework assignment using GCC
+    from subprocess import Popen, PIPE
+    compile_args = ["gcc", "-Wall","-pedantic", "-std=c99", c_file_path, "-o"+du_dir+name]
+    process = Popen(compile_args)
+    return_code = process.wait()
+    if return_code != 0:
+        raise Exception("Error during compilation... sorry.")
+    execname = du_dir+name
 
 # The actual testing here
 # we start a process for every file, capture output and save it in output file
 # if possible, we compare the output with required output
 from DiffStuff import print_diff
-execname = du_dir+name
 
 import platform, threading
 import time
-if platform.system() == "Windows":
-    name = name + ".exe"
+if platform.system() == "Windows" and not execname.endswith(".exe"):
+    execname = execname + ".exe"
 print("Running tests on "+execname + "")
 for index in range(len(inputs)):
     casename = names[index]

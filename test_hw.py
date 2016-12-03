@@ -55,7 +55,7 @@ else:
 
 import glob
 import re
-import os.path
+import os.path 
 import sys
 
 def file_or_none(filename, dir):
@@ -92,7 +92,7 @@ if len(sys.argv) > 1:
         raise Exception("Cannot find homework name in path. Try using ./homework.c or ./homework.exe")
     name = hwname
     if matches.group(3)=="exe":
-        execname = path.join(du_dir, name)
+        execname = os.path.join(du_dir, name)
 # Get name of the HW and list of innuts
 if len(name) == 0:
     name = console_input("Enter HW name (without extension, eg \"HW02\" or \"main\"):")
@@ -143,10 +143,10 @@ for index in range(len(inputs)):
     timeouts.append(timeout_no)
 
     names.append(case_name)
-
+    
+from subprocess import Popen, PIPE
 if execname=="" or len(execname)==0:
     # Compile the homework assignment using GCC
-    from subprocess import Popen, PIPE
     compile_args = ["gcc", "-Wall","-pedantic", "-std=c99", c_file_path, "-o"+du_dir+name]
     process = Popen(compile_args)
     return_code = process.wait()

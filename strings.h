@@ -90,6 +90,12 @@ void str_add_string(String* s, const char* c_str) {
 void str_add_string_class(String* s, const String* const str) {
     str_add_string(s, str_cstr(str));
 }
+void str_sort(String* s, int(*comparator)(const void*, const void*, size_t)) {
+    str_open(s);
+    array_sort(s->char_array, comparator);
+    str_close(s);
+}
+
 /** Set char at position **/
 void str_set_char(String* s, const char chr, size_t pos) {
     if(pos >= s->char_array->length-1) {
@@ -129,7 +135,7 @@ char* str_at_ref(const String* const s, size_t offset) {
     if(offset<str_len(s))
         return ((char*)s->char_array->array)+offset;
     else {
-        chyba("Tried to access offset %ud in a string %ud characters long.", 113, offset, str_len(s));
+        chyba("Tried to access offset %zd in a string %zd characters long.", 113, offset, str_len(s));
     }
 }
 int str_index_of_char(const String* const s, const char character) {
@@ -170,32 +176,7 @@ int str_cmp(const String* const s1, const String* const s2) {
     }
     return sum;
 }
-//#define MIN3(a, b, c) ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
-//int levenshtein(const char *s1, const char *s2) {
-//    unsigned int x, y, s1_len, s2_len;
-//    s1_len = strlen(s1);
-//    s2_len = strlen(s2);
-//    unsigned int matrix[s2_len+1][s1_len+1];
-//    matrix[0][0] = 0;
-//    for (x = 1; x <= s2_len; x++)
-//        matrix[x][0] = matrix[x-1][0] + 1;
-//    for (y = 1; y <= s1_len; y++)
-//        matrix[0][y] = matrix[0][y-1] + 1;
-//    for (x = 1; x <= s2_len; x++)
-//        for (y = 1; y <= s1_len; y++)
-//            matrix[x][y] = MIN3(matrix[x-1][y] + 1, matrix[x][y-1] + 1, matrix[x-1][y-1] + (s1[y-1] == s2[x-1] ? 0 : 1));
-//#ifdef HOME
-//    printf("Matrix:\n");
-//    for(size_t j=0; j<=s2_len; ++j) {
-//        for(size_t i=0; i<=s1_len; ++i) {
-//           printf("%3d ", matrix[i][j]);
-//        }
-//        printf("\n\n");
-//    }
-//    printf("----------------\n");
-//#endif
-//    return(matrix[s2_len][s1_len]);
-//}
+
 int str_levenshtein_dist(const String* const s1, const String* const s2) {
     const size_t s1_len = str_len(s1);
     const size_t s2_len = str_len(s2);

@@ -42,7 +42,7 @@ void qsort_flexible(
 
   /* Allocating SIZE bytes for a pivot buffer facilitates a better
      algorithm below since we can do comparisons directly on the pivot. */
-  char *pivot_buffer = (char *) malloc (size);
+  char * const pivot_buffer = (char *) malloc (size);
   const size_t max_thresh = MAX_THRESH * size;
 
   if (total_elems == 0)
@@ -196,4 +196,5 @@ void qsort_flexible(
           }
       }
   }
+  free(pivot_buffer);
 }

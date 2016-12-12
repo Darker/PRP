@@ -10,12 +10,16 @@ DEFINES += QT_CREATOR
 SOURCES += main.c \
     #HW02.c \
     #HWNAN.c \
-    #HW03.c \
-    #HW05.c \
+    HW03.c \
+    HW05.c \
     #HW05B.c \
     #HW06.c \
-    HW07.c \
-    HW07/lock.c
+    #HW07.c \
+    #node_queue.c \
+    arrays.c \
+    queue.c \
+    HW08.c
+
 
 HEADERS += \
     hw_templates.h \
@@ -36,4 +40,7 @@ HEADERS += \
     arrays_char.h \
     char_info.h \
     HW07.h \
-    HW07/lock.h
+    HW07/lock.h \
+    cpp_tools.h \
+    queue.h \
+    HW08.h

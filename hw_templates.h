@@ -53,6 +53,10 @@ const int range_error_code;
     #define log_info(M, ...)
     #define log_err(M, ...)
     #define log_warn(M, ...)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wuninitialized"
+    #pragma GCC diagnostic ignored "-Wunused-variable"
+
 #endif
 
 #if !defined (HOME) || defined (NORMAL_MAIN)

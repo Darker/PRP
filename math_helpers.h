@@ -5,7 +5,7 @@
 bool readInt(int* target) {
     const int success = scanf("%d", target);
     if(!success) {
-        chyba(invalid_input_error, invalid_input_error_code);
+        chyba(invalid_input_error, invalid_input_error_code, NULL);
     }
     return true;
 }
@@ -17,7 +17,7 @@ bool validateRange(const int value, const int min, const int max) {
 }
 void validateRangeErr(const int value, const int min, const int max) {
     if(!validateRange(value, min, max)) {
-        chyba(range_error, range_error_code);
+        chyba(range_error, range_error_code, NULL);
     }
 }
 

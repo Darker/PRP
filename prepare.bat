@@ -9,7 +9,7 @@ mkdir %TEMPDIR%
 
 rem copy %FILETOZIP% %TEMPDIR%\main.c
 
-gcc -E %FILETOZIP% -Dinclude=#include -Isystem-headers -o%TEMPDIR%\main_tmp.c
+gcc -E %FILETOZIP% -Dinclude=#include -DPREPROCESING_FOR_ODEVSYS -Isystem-headers -o%TEMPDIR%\main_tmp.c
 grep -v '^# [0-9]' %TEMPDIR%\main_tmp.c > %TEMPDIR%\main.c
 erase %TEMPDIR%\main_tmp.c
 

@@ -1,5 +1,5 @@
 // test/debug:
-//    gcc HWXX.c -DHOME -DNORMAL_MAIN -std=c99 -oHWXX && ./HWXX
+//    gcc HWXX.c -DHOME -DNORMAL_MAIN -std=c99 -oHWXX -ggdb && ./HWXX
 // test normal:
 //    gcc HWXX.c -std=c99 -oHWXX && ./HWXX
 #ifndef HWXX_H

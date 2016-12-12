@@ -11,6 +11,7 @@
 # Parameters:
 #    Drag'n'Drop: Drag your homework C file on this script. The file MUST have .c extension
 #    Command line argument: pass path to your file as first argument. Eg. `python test_hw.py "~/PRP/HW02/main.c"
+#     - WINDOWS ONLY: alternativelly, you can pass your .exe file as argument. The compilation will be skipped in that case
 #    Manual input: This only works of homework is in current working directory, you will be prompted for it's name
 # 
 # Tests:
@@ -147,7 +148,7 @@ for index in range(len(inputs)):
 from subprocess import Popen, PIPE
 if execname=="" or len(execname)==0:
     # Compile the homework assignment using GCC
-    compile_args = ["gcc", "-Wall","-pedantic", "-std=c99", c_file_path, "-o"+du_dir+name]
+    compile_args = ["gcc", "-Wall","-pedantic", "-std=c99", "-DTESTING_HW", c_file_path, "-o"+du_dir+name]
     process = Popen(compile_args)
     return_code = process.wait()
     if return_code != 0:
@@ -161,59 +162,82 @@ from DiffStuff import print_diff
 
 import platform, threading
 import time
+import traceback
+def decode_safe(string):
+    encodings = ['ascii', 'utf-8']
+    if not isinstance(string, str_type):
+        for encoding in encodings:
+            try:
+                return str(string.decode(encoding))
+            except UnicodeDecodeError:
+                #do nuthin
+                continue
+    return string
 if platform.system() == "Windows" and not execname.endswith(".exe"):
     execname = execname + ".exe"
 print("Running tests on "+execname + "")
 for index in range(len(inputs)):
     casename = names[index]
     print("Test case: "+ casename)
-    sys.stdout.flush()
-    # Load test input from file
-    myinput = open(testdir + inputs[index])
-    # load args, if any
-    time_start = time.clock()
-    process = Popen([execname]+argslists[index], stdin=myinput, stdout=PIPE, stderr=PIPE)
-    (out, err) = process.communicate()
-    exit_code = process.wait()
-    time_end = time.clock()
-    
-    if not isinstance(out, str_type):
-        out = str(out.decode('ascii'))
-    if not isinstance(err, str_type):
-        err = str(err.decode('ascii'))
-    out = clear_carriage_returns(out)
-    err = clear_carriage_returns(err)
-    rq_code = return_codes[index]
-    rq_out = None
-    if stdout[index] is not None:
-        rq_out = clear_carriage_returns(open(testdir+stdout[index], 'r').read())
-    rq_err = None
-    if stderr[index] is not None:
-        rq_err = clear_carriage_returns(open(testdir+stderr[index], 'r').read())
-    # print("Required output: "+rq_out)
-    problem = False
-    
-    if exit_code!=rq_code:
-        print("  ERROR: Return code: "+str(exit_code)+" does not match required code "+str(rq_code))
-        problem = True
-    if (rq_out is not None) and rq_out!=out:
-        print("  ERROR: Output does not match required output. (note that empty file is also kind of required output).")
-        print("  DIFF:\n")
-        print_diff(out, rq_out)
-        problem = True
-    if (rq_err is not None) and rq_err!=err:
-        print("  ERROR: Error output does not match required output.")
-        if err is None:
-            print("    ... there was no error output at all.\n")
-        else:
-            print("  DIFF:\n")
-            print_diff(err, rq_err)
-        problem = True
-    print("\n  Duration: "+str(time_end-time_start)+" ms")
-    if problem:
-        print("    ERROR!!!\n")
-    else:
-        print("    ...OK\n")
-    print("\n----------------------------\n")
+    try:
+        sys.stdout.flush()
+        # Load test input from file
+        myinput = open(testdir + inputs[index])
+        # load args, if any
+        time_start = time.clock()
+        process = Popen([execname]+argslists[index], stdin=myinput, stdout=PIPE, stderr=PIPE)
+        (out, err) = process.communicate()
+        exit_code = process.wait()
+        time_end = time.clock()
         
+        if not isinstance(out, str_type):
+            out = decode_safe(out)
+        if not isinstance(err, str_type):
+            err = decode_safe(err)
+        out = clear_carriage_returns(out)
+        err = clear_carriage_returns(err)
+        rq_code = return_codes[index]
+        rq_out = None
+        if stdout[index] is not None:
+            rq_out = clear_carriage_returns(open(testdir+stdout[index], 'r').read())
+        rq_err = None
+        if stderr[index] is not None:
+            rq_err = clear_carriage_returns(open(testdir+stderr[index], 'r').read())
+        # print("Required output: "+rq_out)
+        problem = False
+        
+        if exit_code!=rq_code:
+            print("  ERROR: Return code: "+str(exit_code)+" does not match required code "+str(rq_code))
+            problem = True
+        if (rq_out is not None) and rq_out!=out:
+            print("  ERROR: Output does not match required output. (note that empty file is also kind of required output).")
+            print("  DIFF:\n")
+            print_diff(out, rq_out)
+            problem = True
+        if (rq_err is not None) and rq_err!=err:
+            print("  ERROR: Error output does not match required output.")
+            if err is None:
+                print("    ... there was no error output at all.\n")
+            else:
+                print("  DIFF:\n")
+                print_diff(err, rq_err)
+            problem = True
+        print("\n  Duration: "+str(time_end-time_start)+" ms")
+        if problem:
+            print("    ERROR!!!\n")
+        else:
+            print("    ...OK\n")
+    except KeyboardInterrupt:
+        try:
+            print("Test canceled. Press Ctrl+C to quit, next test starts in 2 seconds.")
+            time.sleep(2)
+        except KeyboardInterrupt:
+            break
+    except Exception as ex:
+        import logging
+        logging.exception("ERROR during test:")
+    print("\n----------------------------\n")
+
+
+
 console_input("Press enter to quit");

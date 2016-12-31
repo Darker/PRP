@@ -1,0 +1,7 @@
+#ifndef NODE_C_ODEVSYS_IS_FUCKING_RETARDED_621
+#define NODE_C_ODEVSYS_IS_FUCKING_RETARDED_621
+#include "node.h"
+
+
+#endif
+

@@ -19,7 +19,9 @@ SOURCES += main.c \
     arrays.c \
     queue.c \
     HW08.c \
-    edge.c
+    edge.c \
+    node.c \
+    graph.c
 
 
 HEADERS += \
@@ -45,4 +47,6 @@ HEADERS += \
     cpp_tools.h \
     queue.h \
     HW08.h \
-    edge.h
+    edge.h \
+    node.h \
+    graph.h

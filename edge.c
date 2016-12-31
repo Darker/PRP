@@ -1,6 +1,5 @@
+#ifndef EDGE_C_ODEVSYS_IS_FUCKING_RETARDED_621
+#define EDGE_C_ODEVSYS_IS_FUCKING_RETARDED_621
 #include "edge.h"
 
-edge::edge()
-{
-
-}
+#endif

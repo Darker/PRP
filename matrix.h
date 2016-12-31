@@ -223,8 +223,8 @@ Matrix* matrix_read_prp_1(FILE* stream) {
   return result;
 }
 Matrix* matrix_read_prp_2(FILE* stream, char* name) {
-  int row = 0;
-  int col = 0;
+  size_t row = 0;
+  size_t col = 0;
   // First read matrice's name (should be capital letter)
   if(fscanf(stream, "%c=[", name)!=1 || (*name<'A' || *name>'Z'))
       return NULL;
@@ -240,7 +240,7 @@ Matrix* matrix_read_prp_2(FILE* stream, char* name) {
       if(row==0) {
           matrix_expand(result, row+1, col+1);
       }
-      else if(col>=result->width) {
+      else if(col >= result->width) {
           log_warn("Failed to load matrix - inconsistent row lengths row=%d col=%d width=%d", row, col, result->width);
           return matrix_destroy(result);
       }

@@ -18,7 +18,7 @@ typedef struct {
    // This is where we put bitches
    // afterwards, tail grows
    size_t tail;
-   bool empty;
+   bool debug;
 } queue_t;
 #else
 
@@ -51,7 +51,13 @@ void* get_from_queue(Queue* queue, int idx);
 
 /* Size is cached */
 int get_queue_size(Queue* q);
+void queue_print(Queue* q, const char* const prefix);
 
+bool queue_push(Queue* q, void* data);
+void* queue_pop(Queue* q);
+void* queue_get(Queue* q, int offset);
+int   queue_length(Queue* q);
+void  queue_free_empty_space(Queue* q);
 #if defined(PREPROCESING_FOR_ODEVSYS) || defined(TESTING_HW)
 #define QUEUE_C_QMAKE_IS_RETARDED "queue.c"
 #include QUEUE_C_QMAKE_IS_RETARDED

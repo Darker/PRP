@@ -2,6 +2,8 @@
 //    gcc HWXX.c -DHOME -DNORMAL_MAIN -std=c99 -oHWXX -ggdb && ./HWXX
 // test normal:
 //    gcc HWXX.c -std=c99 -oHWXX && ./HWXX
+// test for warnings:
+//    gcc HWXX.c -std=c99 -Wall -pedantic -oHWXX && ./HWXX
 #ifndef HWXX_H
 #define HWXX_H
 #include "hw_templates.h"

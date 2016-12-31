@@ -56,7 +56,10 @@ const int range_error_code;
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wuninitialized"
     #pragma GCC diagnostic ignored "-Wunused-variable"
-
+    #pragma GCC diagnostic ignored "-Wsign-compare"
+    #pragma GCC diagnostic ignored "-Wunused-parameter"
+    #pragma GCC diagnostic ignored "-Wreturn-type"
+    #pragma GCC diagnostic ignored "-Wformat-extra-args"
 #endif
 
 #if !defined (HOME) || defined (NORMAL_MAIN)

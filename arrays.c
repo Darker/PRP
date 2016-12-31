@@ -53,6 +53,40 @@ void array_reserve(Array* a, size_t count) {
     a->size = count;
   }
 } 
+void array_free_empty_memory(Array* a)
+{
+    if(a->length < a->size) {
+        void* newPointer = NULL;
+        newPointer = (void*)realloc(a->array, a->length * a->elm_size);
+        if(newPointer==NULL) {
+            printf("ERROR: failed to de-allocate memory!\n");
+            exit(1);
+        }
+        a->array = newPointer;
+        a->size = a->length;
+    }
+}
+void array_free_mem(Array* a, size_t items) {
+    size_t orig_size = a->size;
+    size_t new_size = orig_size>items?orig_size-items:0;
+    if(new_size>0) {
+        void* newPointer = NULL;
+        newPointer = (void*)realloc(a->array, new_size * a->elm_size);
+        if(newPointer==NULL) {
+            printf("ERROR: failed to de-allocate memory!\n");
+            exit(1);
+        }
+        a->array = newPointer;
+        a->size = new_size;
+        if(a->length > new_size)
+            a->length = new_size;
+    }
+    else {
+        free(a->array);
+        a->array = NULL;
+    }
+    a->size = new_size;
+}
 
 void array_expand(Array* a, size_t length) {
   if(length>a->length) {
@@ -392,3 +426,5 @@ void arrmap_destroy(ArrayMap* map) {
 }
 
 #endif
+
+

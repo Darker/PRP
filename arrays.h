@@ -52,6 +52,12 @@ Array* array_create(size_t elm_size, size_t initalSize);
  * If the array already has enough memory, nothing happens.
 */
 void array_reserve(Array* a, size_t count);
+/**
+  Free extra memory that is not occupied by elements **/
+void array_free_empty_memory(Array* a);
+/**
+  Free memore corresponding to given item count **/
+void array_free_mem(Array* a, size_t items);
 /** Expands the array to required size. The value of
  * new fields is undefined. There is little reason to use
  * this instead of array_push or array_reserve */ 

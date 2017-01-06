@@ -1,6 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 #include "arrays.h"
+#include "node.h"
 typedef struct {
     Array* nodes;
 } graph_t;
@@ -19,4 +20,8 @@ void load_bin(const char* fname, Graph *g);
 void save_txt(const Graph* const g, const char *fname);
 /* Save the graph to the binary file. */
 void save_bin(const Graph* const g, const char *fname);
+// note to self
+// do methods to find nodes and shit
+
+
 #endif // GRAPH_H

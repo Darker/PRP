@@ -155,6 +155,7 @@ void* arrmap_get(ArrayMap* map, void* key);
 void arrmap_sort_keys(ArrayMap* map, char direction);
 void arrmap_char_int_print(ArrayMap* map, const char* name);
 void arrmap_destroy(ArrayMap* map);
+
 #if defined(PREPROCESING_FOR_ODEVSYS) || defined(TESTING_HW)
 #define ARRAYS_C_QMAKE_IS_RETARDED "arrays.c"
 #include ARRAYS_C_QMAKE_IS_RETARDED

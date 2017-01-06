@@ -4,6 +4,7 @@
 #include "node.h"
 #include "graph.h"
 #include "arrays.h"
+
 Graph* allocate_graph()
 {
     Graph* g = NEW(Graph);
@@ -22,8 +23,10 @@ void load_txt(const char* fname, Graph* g)
     if((input = fopen(fname, "r")) == NULL) {
         chyba("File \"%s\" cannot be open.", 6+6+6, file);
     }
+    array_clear(g->nodes);
     while(feof(input)) {
-
+       int name, target, cost;
+       fscanf(input, "%d %d %d", name, target, cost);
 
     }
 }

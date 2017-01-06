@@ -5,7 +5,7 @@ typedef struct Edge Edge;
 struct Edge{
     size_t cost;
     Node* A;
-    Node* B;
+    NodeName targetNode;
 };
 #if defined(PREPROCESING_FOR_ODEVSYS) || defined(TESTING_HW)
 #define EDGE_C_QMAKE_IS_RETARDED "edge.c"

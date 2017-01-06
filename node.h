@@ -2,6 +2,8 @@
 #define NODE_H
 #include "arrays.h"
 #include "edge.h"
+// Name of a node in the graph
+typedef int NodeName;
 typedef struct Node Node;
 struct Node {
     void* value;
@@ -9,22 +11,8 @@ struct Node {
     Array* edges;
 };
 
-void node_add_edge(Node* node, Node* target, size_t cost) {
-    Edge e;
-    e.A = node;
-    e.B = target;
-    e.cost = cost;
-    array_push(node->edges, &e);
-}
-Edge* node_find_edge(Node* node, Node* target) {
-    for(size_t i=0, l=node->edges->length; i<l; ++i) {
-        Edge* e = array_get(node->edges, i);
-        if(e->B == target) {
-            return e;
-        }
-    }
-    return NULL;
-}
+void node_add_edge(Node* node, Node* target, size_t cost);
+Edge* node_find_edge(Node* node, Node* target);
 #if defined(PREPROCESING_FOR_ODEVSYS) || defined(TESTING_HW)
 #define NODE_C_QMAKE_IS_RETARDED "node.c"
 #include NODE_C_QMAKE_IS_RETARDED

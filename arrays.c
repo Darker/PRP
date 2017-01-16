@@ -1,5 +1,5 @@
-#ifndef QUEUE_ODEVSYS_IS_FUCKING_RETARDED_621
-#define QUEUE_ODEVSYS_IS_FUCKING_RETARDED_621
+#ifndef ARRAYS_ODEVSYS_IS_PROBLEMATIC_621
+#define ARRAYS_ODEVSYS_IS_PROBLEMATIC_621
 #include "arrays.h"
 #include <string.h>
 
@@ -112,7 +112,7 @@ void array_insert(Array* const a, const size_t position, const void* const eleme
       array_push(a, element);
   }
   if(position>=a->length) {
-      chyba("Error: insert at %zu out of bounds of this array.\a", 173, position)
+      chyba("Error: insert at %d out of bounds of this array.\a", 173, (int)position)
   }
   if (a->length >= a->size) {
     array_reserve(a, a->length + 1);
@@ -138,7 +138,7 @@ void array_shift(Array* const a, void* target) {
 
 /**
  * Removes last element from the array. The element's value cannot be retrieved
- * because fucking C has no templates.
+ * because **** C has no templates.
  * @returns new size of the array
 **/
 size_t array_pop_back(Array* a) {
@@ -228,12 +228,12 @@ void array_move(Array* const a, size_t start, size_t end, size_t count) {
     if(!array_offset_valid(a, start) || !array_offset_valid(a, start+count-1) ||
        !array_offset_valid(a, end) || !array_offset_valid(a, end+count-1)
     )
-        chyba("Moving items out of bounds!", 24, NULL);
+        chyba("Moving items out of bounds!%s", 24, "");
     // by how many items are we moving. This is awesome, coz it's
     // always the same regardless of direction
     long offset = (long)end - (long)start;
     //log_info("Moving %d items by $d fields.", (int)count, (int)offset);
-    char* const ptr = a->array;
+    //char* const ptr = a->array;
 
     for(;begin != finish; begin+=direction) {
         memcpy(array_get_fast(a, begin+offset), array_get_fast(a, begin), a->elm_size);

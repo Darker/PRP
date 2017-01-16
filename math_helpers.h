@@ -35,6 +35,9 @@ int min_3(int a, int b, int c) {
     }
 }
 
+//void write_number_int(FILE* stream, const int number) {
+//    while()
+//}
 
 
 

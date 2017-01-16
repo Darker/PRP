@@ -59,8 +59,8 @@ void* queue_get(Queue* q, int offset);
 int   queue_length(Queue* q);
 void  queue_free_empty_space(Queue* q);
 #if defined(PREPROCESING_FOR_ODEVSYS) || defined(TESTING_HW)
-#define QUEUE_C_QMAKE_IS_RETARDED "queue.c"
-#include QUEUE_C_QMAKE_IS_RETARDED
+#define QUEUE_C_QMAKE_IS_PROBLEMATIC "queue.c"
+#include QUEUE_C_QMAKE_IS_PROBLEMATIC
 #endif
 
 #endif /* __QUEUE_H__ */

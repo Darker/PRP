@@ -1,6 +1,7 @@
 #ifndef CHAR_INFO_H
 #define CHAR_INFO_H
 #include "types.h"
+// NO, here stands for NUMBER, not "no"
 #define NO_LOWERCASE_LETTERS 'z'-'a'+1
 #define NO_UPPERCASE_LETTERS 'Z'-'A'+1
 #define NO_LETTERS NO_LOWERCASE_LETTERS+NO_UPPERCASE_LETTERS

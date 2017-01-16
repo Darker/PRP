@@ -15,13 +15,15 @@ void swap(void*a, void*b, size_t size);
         keep && count < size; \
         keep = !keep, count++) \
       for(item = *((type*)array_get(array, count)); keep; keep = !keep)
+// Remember that the type here is without the pointer type
+// eg. just int for array of integers
 #define AR_FOREACH_PTR(item, array, type)  \
     for(size_t keep = 1, \
-            count = 0,\
+            foreach_count = 0,\
             size = array->length; \
-        keep && count < size; \
-        keep = !keep, count++) \
-      for(item = ((type*)array_get(array, count)); keep; keep = !keep)
+        keep && foreach_count < size; \
+        keep = !keep, foreach_count++) \
+      for(item = ((type*)array_get(array, foreach_count)); keep; keep = !keep)
 #include "cpp_tools.h"
 /** STRUCTURE Array
  *   - Dynamic array of any size and any size per element
@@ -30,7 +32,7 @@ void swap(void*a, void*b, size_t size);
  *      - void* array_create ->DO NOT FORGET TO FREE UP the pointer
  *
 **/
-typedef struct {
+typedef struct Array {
   //Pointer to array data
   void *array;
   //How many elements are in array
@@ -74,7 +76,7 @@ void array_shift(Array* const a, void* target);
 
 /**
  * Removes last element from the array. The element's value cannot be retrieved
- * because fucking C has no templates.
+ * because **** C has no templates.
  * @returns new size of the array
 **/
 size_t array_pop_back(Array* a);
@@ -157,8 +159,8 @@ void arrmap_char_int_print(ArrayMap* map, const char* name);
 void arrmap_destroy(ArrayMap* map);
 
 #if defined(PREPROCESING_FOR_ODEVSYS) || defined(TESTING_HW)
-#define ARRAYS_C_QMAKE_IS_RETARDED "arrays.c"
-#include ARRAYS_C_QMAKE_IS_RETARDED
+#define ARRAYS_C_QMAKE_IS_PROBLEMATIC "arrays.c"
+#include ARRAYS_C_QMAKE_IS_PROBLEMATIC
 #endif
 
 #endif

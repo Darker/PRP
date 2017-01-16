@@ -131,21 +131,21 @@ size_t queue_next_offset(const Queue* const q, const size_t current_offset) {
 void* get_from_queue(Queue* q, int idx)
 {
     if(q->head == q->tail) {
-        log_info("Cannot get from index because queue is empty.", NULL);
+        log_info("Cannot get from index because queue is empty.%s","");
         return NULL;
     }
 
     if(idx<0) {
-        log_info("Given index is negative.", NULL);
+        log_info("Given index is negative.%s","");
         return NULL;
     }
     size_t index = idx;
 
-    if(q->head > q->tail && index >= queue_length(q)) {
-        log_info("Given index reaches behind tail.", NULL);
+    if(q->head > q->tail && index >= (size_t)queue_length(q)) {
+        log_info("Given index reaches behind tail.%s","");
         return NULL;
     }
-    const size_t from_tail = q->array->length - q->tail;
+    //const size_t from_tail = q->array->length - q->tail;
 
 
     if(q->head < q->tail && q->tail+index>=q->array->length) {
@@ -153,7 +153,7 @@ void* get_from_queue(Queue* q, int idx)
         index = (q->tail+index) - q->array->length;
         // Remember, head sits on an empty spot
         if(index >= q->head) {
-            log_info("Given index reaches behind tail.", NULL);
+            log_info("Given index reaches behind tail.%s","");
             return NULL;
         }
         return *(void**)array_get(q->array, index);
@@ -182,7 +182,7 @@ void queue_print(Queue* q, const char* const prefix) {
         printf(prefix);
         printf("\n    ");
     }
-    printf("|", NULL);
+    printf("|");
     for(size_t i=0; i<q->array->length; ++i) {
         if(i == q->head) {
             printf(q->head!=q->tail ? "H":"X");

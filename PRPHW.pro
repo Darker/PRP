@@ -10,18 +10,21 @@ DEFINES += QT_CREATOR
 SOURCES += main.c \
     #HW02.c \
     #HWNAN.c \
-    HW03.c \
-    HW05.c \
+    #HW03.c \
+    #HW05.c \
     #HW05B.c \
     #HW06.c \
     #HW07.c \
     #node_queue.c \
     arrays.c \
     queue.c \
-    HW08.c \
+    #HW08.c \
     edge.c \
     node.c \
-    graph.c
+    graph.c \
+    HW09.c \
+    dijkstra.c \
+    pq_heap-no_update.c
 
 
 HEADERS += \
@@ -49,4 +52,8 @@ HEADERS += \
     HW08.h \
     edge.h \
     node.h \
-    graph.h
+    graph.h \
+    HW09.h \
+    graph_types.h \
+    dijkstra.h \
+    pq_heap.h

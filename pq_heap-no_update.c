@@ -22,7 +22,7 @@ typedef struct {
    int *heapIDX;   // this is need for implementing pq_update()
                    // array with indexes of cost vertices, i.e.,where the particular 
                    // heapIDX[id] is the index where the cost of the vertex with the 
-                   // label id is tored in cost. 
+                   // label id is stored in cost.
                    // E.g., cost of the vertex with the label id is at the heapIDX[id] 
                    // position in the cost array, thus, cost is cost[ heapIDX[ id ] ]
 } pq_heap_s;
@@ -35,7 +35,7 @@ static void pq_down(pq_heap_s *pq);
 static void pq_swap(pq_heap_s *pq, int i, int j);
 
 // - function ----------------------------------------------------------------
-void *pq_alloc(int size)
+void* pq_alloc(int size)
 {
    pq_heap_s *pq = (pq_heap_s*)malloc(sizeof(pq_heap_s));
    if (pq) {
@@ -106,7 +106,14 @@ _Bool pq_push(void *_pq, int label, int cost)
    return ret;
 }
 
-// - function ----------------------------------------------------------------
+
+/**
+ * @brief pq_update updates queue priority order based on new cost
+ * @param _pq the queue
+ * @param label id of node which has changed the cost
+ * @param cost new cost
+ * @return
+ */
 _Bool pq_update(void *_pq, int label, int cost)
 {
    _Bool ret = false;
@@ -118,23 +125,21 @@ _Bool pq_update(void *_pq, int label, int cost)
          && label < pq->size
          && pq->heapIDX[label] != -1 //vertex with the label is in the pq 
       ) {
+      // get index of cost for this label
+      int current_index = pq->heapIDX[label];
+      // Update cost to new cost
+      // after this operation, the queue is not sorted properly
+      pq->cost[current_index] = cost;
 
-      pq->cost[pq->heapIDX[label]] = cost; // update the cost, but heap property is not satified 
-      // assert(pq_is_heap(pq, 0));
-
-      pq_heap_s *pqBackup = (pq_heap_s*)pq_alloc(pq->size); //create backup of the heap
-      pqBackup->len = pq->len;
-      for (int i = 0; i < pq->len; ++i) { // backup the help
-         pqBackup->cost[i]= pq->cost[i]; //just cost and labels
-         pqBackup->label[i] = pq->label[i];
+      int current_parent = GET_PARENT(current_index);
+      // go up the tree of parent nodes and sort
+      // the queue as long
+      while (current_index >= 1 && // do not continue on zero node, it has no parent!
+             pq->cost[current_parent] > pq->cost[current_index]) {
+          pq_swap(pq, current_parent, current_index);
+          current_index = current_parent;
+          current_parent = GET_PARENT(current_index);
       }
-
-      pq->len = 0; //clear all vertices in the current heap
-      for (int i = 0; i < pqBackup->len; ++i) { //create new heap from the backup with updated cost for index
-         pq_push(pq, pqBackup->label[i], pqBackup->cost[i]);
-      }
-      pq_free(pqBackup); // release the queue 
-      // assert(pq_is_heap(pq, 0));
       ret = true;
    }
    return ret;

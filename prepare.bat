@@ -32,7 +32,7 @@ echo ERROR: No test directory available.
 cd %TEMPDIR%
 rem echo Starting 7zip with arguments: %ProgramFiles%\7-Zip\7z a -y -tzip main.zip main.c
 "%ProgramFiles%\7-Zip\7z" a -y -tzip main.zip main.c
-
+"%ProgramFiles%\7-Zip\7z" rn main.zip main.c graph.c 
 cd ..
 xcopy %TEMPDIR%\main.zip . /Y /I
 pause

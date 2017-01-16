@@ -1,0 +1,1 @@
+"%ProgramFiles%\7-Zip\7z" a -y -tzip HW10.zip arrays.c arrays.h char_info.h dijkstra.c dijkstra.h edge.c edge.h graph.c graph.h graph_types.h math_helpers.h node.c node.h pq_heap-no_update.c pq_heap.h queue.c queue.h hw_templates.h cpp_tools.h q_sort_flex.h

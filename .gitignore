@@ -5,6 +5,7 @@ HW*.exe
 !HW*/
 !HW*/**
 *.zip
+*.7z
 *.exe
 *.pyc
 sys
